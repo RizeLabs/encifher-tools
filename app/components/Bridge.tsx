@@ -33,7 +33,7 @@ const Bridge = () => {
           className="bg-black text-white p-3 border border-gray-400 rounded-lg "
         />
       </div>
-      <button className="bg-[#2E00E5] text-white p-3 rounded-lg" onClick={bridge}>
+      <button className="bg-[#2E00E5] text-white p-3 rounded-lg border border-black shadow-lg shadow-black" onClick={bridge}>
         Bridge 0.01 eBTC
       </button>
     </div>
