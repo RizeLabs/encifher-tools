@@ -48,7 +48,7 @@ const Faucet = () => {
           className="bg-black text-white p-3 border border-gray-400 rounded-lg "
         />
       </div>
-      <button className="bg-[#2E00E5] text-white p-3 rounded-lg" onClick={mint}>
+      <button className="bg-[#2E00E5] text-white p-3 rounded-lg border border-black shadow-lg shadow-black" onClick={mint}>
         Claim 0.01 eBTC
       </button>
       {success.error && (

@@ -19,17 +19,21 @@ export default function Home() {
           <Image src={"/logo.svg"} alt="logo" width={200} height={200} />
         </div>
         <div className="flex flex-col space-y-2 w-[50%]">
-          <select
-            id="type"
-            className="flex flex-row text-sm items-start bg-transparent w-max focus:border-0"
-            onChange={selectChange}
-            defaultValue={"faucet"}
-          >
-            <option selected value="faucet">
-              Faucet
-            </option>
-            <option value="bridge">Bridge</option>
-          </select>
+          <div className="flex flex-col items-center">
+            {" "}
+            <select
+              id="type"
+              className="flex flex-row text-lg bg-transparent w-max focus:border-0"
+              onChange={selectChange}
+              defaultValue={"faucet"}
+            >
+              <option selected value="faucet">
+                Faucet
+              </option>
+              <option value="bridge">Bridge</option>
+            </select>
+          </div>
+
           {selected == "bridge" && <Bridge />}
           {selected == "faucet" && <Faucet />}
         </div>
