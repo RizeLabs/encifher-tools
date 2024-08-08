@@ -21,7 +21,7 @@ export default function Home() {
         <div className="flex flex-col space-y-2 w-[50%]">
           <select
             id="type"
-            className="flex flex-row text-sm items-start bg-transparent w-max focus:border-0"
+            className="flex flex-row text-sm items-start bg-gray-800 w-max focus:border-0"
             onChange={selectChange}
             defaultValue={"faucet"}
           >

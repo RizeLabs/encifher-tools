@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.4.6",
+    "bitcoin-core": "^4.2.0",
     "ethers": "^6.13.2",
     "framer-motion": "^11.3.19",
+    "fs": "^0.0.1-security",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18"

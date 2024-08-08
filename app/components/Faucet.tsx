@@ -8,6 +8,7 @@ type faucetSuccessType = {
 };
 
 const Faucet = () => {
+  const [address, setAddress] = useState<string>("");
   const [success, setSuccess] = useState<faucetSuccessType>({
     isSuccessful: false,
     encifher_txid: undefined,
@@ -45,6 +46,8 @@ const Faucet = () => {
           required
           id="address"
           placeholder="address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
           className="bg-black text-white p-3 border border-gray-400 rounded-lg "
         />
       </div>
