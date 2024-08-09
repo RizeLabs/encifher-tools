@@ -26,19 +26,9 @@ const get_tx_block = async (txid: string) => {
 export async function POST(req: Request) {
     const { address }: { address: string } = await req.json();
     try {
-        const txid_btc = await client.sendToAddress(
-            "tb1q38n8qu3upuln9s2pvl2leqx4zef7x5qry59y8w",
-            9.0
-        );
+        const txid_btc = "880d86398bd49db7483d7aa8d0ed420244d024fa037eae5a8908bb3a7947f2fd";
 
-        let block_tip = get_block_tip();
-        const tx_block = get_tx_block(txid_btc);
-        while (block_tip <= tx_block) {
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            block_tip = get_block_tip();
-        }
-
-        const response = await fetch("https://13.60.89.214:3000/bridge",
+        const response = await fetch("http://13.60.89.214:3000/bridge",
             {
                 method: "POST",
                 headers: {

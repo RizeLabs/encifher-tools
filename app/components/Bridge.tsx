@@ -18,14 +18,25 @@ const Bridge = () => {
   });
 
   const bridge = async () => {
-    const resp = await fetch("/api/bridge", {
-      method: "POST",
-      body: JSON.stringify({
-        address
-      }),
-    });
-    const { txid_btc, txid_encifher } = await resp.json();
-    console.log(txid_btc, txid_encifher);
+    try {
+      const resp = await fetch("/api/bridge", {
+        method: "POST",
+        body: JSON.stringify({
+          address
+        }),
+      });
+      const { txid_btc, txid_encifher } = await resp.json();
+      console.log(txid_btc, txid_encifher);
+      setSuccess({ isSuccessful: true, signet_txid: txid_btc, encifher_txid: txid_encifher, error: undefined });
+    } catch (error) {
+      console.log(error);
+      setSuccess({
+        isSuccessful: false,
+        signet_txid: undefined,
+        encifher_txid: undefined,
+        error: error as string,
+      });
+    }
   }
 
   return (
