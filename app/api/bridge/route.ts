@@ -41,3 +41,9 @@ export async function POST(req: Request) {
         console.error("Error sending transaction:", error);
     }
 };
+
+export const config = {
+    api: {
+        bodyParser: process.env.NODE_ENV !== "production",
+    }
+}
