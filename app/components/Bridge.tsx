@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import axios from "axios";
 
 type bridgeSuccessType = {
   isSuccessful: boolean;
@@ -19,13 +20,14 @@ const Bridge = () => {
 
   const bridge = async () => {
     try {
-      const resp = await fetch("/api/bridge", {
-        method: "POST",
-        body: JSON.stringify({
-          address
-        }),
-      });
-      const { txid_btc, txid_encifher } = await resp.json();
+      const response = await axios.post("/api/bridge",
+        { address },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          timeout: 20000,
+        }
+      );
+      const { txid_btc, txid_encifher } = response.data;
       console.log(txid_btc, txid_encifher);
       setSuccess({ isSuccessful: true, signet_txid: txid_btc, encifher_txid: txid_encifher, error: undefined });
     } catch (error) {

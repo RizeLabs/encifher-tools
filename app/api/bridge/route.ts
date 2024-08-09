@@ -1,4 +1,6 @@
+const axios = require("axios");
 const Client = require("bitcoin-core");
+
 const client = new Client({
     network: "testnet",
     username: "bitcoin",
@@ -27,15 +29,14 @@ export async function POST(req: Request) {
     const { address }: { address: string } = await req.json();
     try {
         const txid_btc = "880d86398bd49db7483d7aa8d0ed420244d024fa037eae5a8908bb3a7947f2fd";
-        const response = await fetch("http://13.60.89.214:3000/bridge",
+        const response = await axios.post("http://13.60.89.214:3000/bridge",
+            { txid: txid_btc, address },
             {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ txid: txid_btc, address }),
-            });
-        const txid_encifher = await response.json();
+                headers: { 'Content-Type': 'application/json' },
+                timeout: 20000,
+            }
+        );
+        const txid_encifher = response.data;
         return Response.json({ txid_btc, txid_encifher });
     } catch (error) {
         console.error("Error sending transaction:", error);
