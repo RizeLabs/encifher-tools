@@ -4,6 +4,8 @@ import Bridge from "./components/Bridge";
 import { useState } from "react";
 import Faucet from "./components/Faucet";
 
+export const maxDuration = 300;
+
 export default function Home() {
   const [selected, setSelected] = useState("faucet");
   const selectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
