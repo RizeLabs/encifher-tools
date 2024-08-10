@@ -12,6 +12,8 @@ const client = new Client({
 
 const BASE_URL = "https://mempool.encifher.io/api";
 
+export const maxDuration = 300;
+
 const get_block_tip = async () => {
     const url = `${BASE_URL}/blocks/tip/height`;
     const response = await fetch(url);
