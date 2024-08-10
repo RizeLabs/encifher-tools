@@ -1,4 +1,5 @@
 "use client";
+import { Spinner } from "@nextui-org/react";
 import React, { useState } from "react";
 
 type faucetSuccessType = {
@@ -9,6 +10,8 @@ type faucetSuccessType = {
 
 const Faucet = () => {
   const [address, setAddress] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+
   const [success, setSuccess] = useState<faucetSuccessType>({
     isSuccessful: false,
     encifher_txid: undefined,
@@ -16,6 +19,7 @@ const Faucet = () => {
   });
 
   const mint = async () => {
+    setLoading(true);
     try {
       const resp = await fetch("/api/mint", {
         method: "POST",
@@ -26,6 +30,7 @@ const Faucet = () => {
       });
       const { txid } = await resp.json();
       setSuccess({ isSuccessful: true, encifher_txid: txid, error: undefined });
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setSuccess({
@@ -33,6 +38,7 @@ const Faucet = () => {
         encifher_txid: undefined,
         error: error as string,
       });
+      setLoading(false);
     }
   };
 
@@ -51,8 +57,11 @@ const Faucet = () => {
           className="bg-black text-white p-3 border border-gray-400 rounded-lg "
         />
       </div>
-      <button className="bg-[#2E00E5] text-white p-3 rounded-lg border border-[#A994FF]" onClick={mint}>
-        Claim 0.01 eBTC
+      <button
+        className="bg-[#2E00E5] text-white p-3 rounded-lg border border-[#A994FF]"
+        onClick={mint}
+      >
+        {loading ? <Spinner /> : "Claim 0.01 eBTC"}
       </button>
       {success.error && (
         <div className="text-[18px] text-red-300 text-wrap">
@@ -62,7 +71,12 @@ const Faucet = () => {
       {success.encifher_txid && (
         <div className="flex flex-col space-y-1 text-[18px]">
           <h3 className="text-sm font-semibold">L2 TxId:</h3>
-          <a href="#" className="overflow-hidden text-ellipsis">{success.encifher_txid}</a>
+          <a
+            href={`https://explorer.encifher.io/tx/${success.encifher_txid}`}
+            className="overflow-hidden text-ellipsis"
+          >
+            {success.encifher_txid}
+          </a>
         </div>
       )}
     </div>

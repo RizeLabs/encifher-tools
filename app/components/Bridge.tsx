@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { Spinner } from "@nextui-org/react";
 import axios from "axios";
 
 type bridgeSuccessType = {
@@ -11,6 +12,8 @@ type bridgeSuccessType = {
 
 const Bridge = () => {
   const [address, setAddress] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  
   const [success, setSuccess] = useState<bridgeSuccessType>({
     isSuccessful: false,
     signet_txid: undefined,
@@ -19,6 +22,8 @@ const Bridge = () => {
   });
 
   const bridge = async () => {
+
+    setLoading(true);
     try {
       const response = await axios.post("/api/bridge",
         { address },
@@ -30,6 +35,7 @@ const Bridge = () => {
       const { txid_btc, txid_encifher } = response.data;
       console.log(txid_btc, txid_encifher);
       setSuccess({ isSuccessful: true, signet_txid: txid_btc, encifher_txid: txid_encifher, error: undefined });
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setSuccess({
@@ -38,6 +44,7 @@ const Bridge = () => {
         encifher_txid: undefined,
         error: error as string,
       });
+      setLoading(false);
     }
   }
 
@@ -57,7 +64,7 @@ const Bridge = () => {
         />
       </div>
       <button className="bg-[#2E00E5] text-white p-3 rounded-lg border border-[#A994FF]" onClick={bridge}>
-        Bridge 0.01 eBTC
+        {loading ? <Spinner /> :"Bridge 0.01 eBTC"}
       </button>
       <div className="mt-2 text-center">
         {success.isSuccessful && <span>Yay! Checkout the tx: <a href={`https://explorer.encifher.io/tx/${success.encifher_txid}`} target="_blank"
