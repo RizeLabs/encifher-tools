@@ -24,7 +24,7 @@ const Bridge = () => {
         { address },
         {
           headers: { 'Content-Type': 'application/json' },
-          timeout: 20000,
+          timeout: 30000,
         }
       );
       const { txid_btc, txid_encifher } = response.data;
@@ -59,6 +59,11 @@ const Bridge = () => {
       <button className="bg-[#2E00E5] text-white p-3 rounded-lg border border-[#A994FF]" onClick={bridge}>
         Bridge 0.01 eBTC
       </button>
+      <div className="mt-2 text-center">
+        {success.isSuccessful && <span>Yay! Checkout the tx: <a href={`https://explorer.encifher.io/tx/${success.encifher_txid}`} target="_blank"
+          className="text-yellow-400">Encifher scan</a></span>}
+        {!success.isSuccessful && success.error && <>Oops! Please try again.</>}
+      </div>
     </div>
   );
 };
