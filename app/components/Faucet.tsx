@@ -43,22 +43,21 @@ const Faucet = () => {
   };
 
   return (
-    <div className="border border-[#A994FF] rounded-lg p-[30px] bg-[#7857FF] bg-opacity-[30%] flex flex-col space-y-5 ">
-      <h1 className="text-[23px] font-semibold">Faucet</h1>
-      <div className="flex flex-col space-y-1">
-        <label htmlFor="address">Address:</label>
-        <input
-          type="text"
-          required
-          id="address"
-          placeholder="address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          className="bg-black text-white p-3 border border-gray-400 rounded-lg "
-        />
-      </div>
+    <div className="rounded-[32px] p-[40px] bg-gradient-to-b from-[#00000080] to-[#212121] bg-opacity-[50%] flex flex-col space-y-[30px] w-[55%]">
+      <h1 className="text-[35px] font-[400]">Faucet</h1>
+
+      <input
+        type="text"
+        required
+        id="address"
+        placeholder="Wallet Address"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        className="bg-[#2D146C] text-white py-3 px-6 border border-gray-400 rounded-full "
+      />
+
       <button
-        className="bg-[#2E00E5] text-white p-3 rounded-lg border border-[#A994FF]"
+        className=" bg-gradient-to-b from-[#7754FF] to-[#643CFF] text-white p-3 rounded-full "
         onClick={mint}
       >
         {loading ? <Spinner /> : "Claim 0.01 eBTC"}

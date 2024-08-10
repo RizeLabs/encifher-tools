@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { NextUIProvider } from "@nextui-org/react";
-const inter = Inter({ subsets: ["latin"] });
+import Navbar from "./components/Navbar";
+import { Lexend } from "next/font/google";
+const lexend = Lexend({ subsets: ["latin"], weight: ["100", '200', '300', '400', '500'] });
 
 export const metadata: Metadata = {
   title: "Encifher Tools",
@@ -16,9 +18,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head><link rel="icon" href="/favicon.png" /></head>
-      <body className={inter.className}>
-        <NextUIProvider>{children}</NextUIProvider>
+      <head>
+        <link rel="icon" href="/favicon.png" />
+      </head>
+      <body className={lexend.className}>
+        <NextUIProvider>
+          <Navbar />
+          {children}
+        </NextUIProvider>
       </body>
     </html>
   );
