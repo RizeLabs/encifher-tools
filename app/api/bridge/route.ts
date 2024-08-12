@@ -30,7 +30,7 @@ const get_tx_block = async (txid: string) => {
 export async function POST(req: Request) {
     const { address }: { address: string } = await req.json();
     try {
-        const txid_btc = "a424e8be6173cf8f80d517fd75e9fa4735419f358b49269d9cacd978e845cde8";
+        const txid_btc = "1d61de8da443e56151d5a6b30366338e10dc78fc19d20ffee51c83540d48518f";
         const response = await axios.post("http://13.60.89.214:3000/bridge",
             { txid: txid_btc, address },
             {
