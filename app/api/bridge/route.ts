@@ -14,19 +14,6 @@ const BASE_URL = "https://mempool.encifher.io/api";
 
 export const maxDuration = 300;
 
-const get_block_tip = async () => {
-    const url = `${BASE_URL}/blocks/tip/height`;
-    const response = await fetch(url);
-    const block_tip = await response.json();
-    return block_tip;
-}
-const get_tx_block = async (txid: string) => {
-    const url = `${BASE_URL}/tx/${txid}/status`
-    const response = await fetch(url);
-    const tx_block = await response.json();
-    return tx_block.block_height;
-}
-
 export async function POST(req: Request) {
     const { address }: { address: string } = await req.json();
     try {
