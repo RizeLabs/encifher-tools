@@ -56,7 +56,8 @@ const Bridge = () => {
   return (
     <div className="rounded-[32px] p-[40px] bg-gradient-to-b from-[#00000080] to-[#212121] bg-opacity-[50%] flex flex-col space-y-[30px] w-[55%]">
       <h1 className="text-[35px] font-[400]">Bridge</h1>
-
+      <p>Your Taproot Address: 0x842434...adnzxu</p>
+      <p>Balance: 10.000 SATS</p>
       <input
         type="text"
         required
