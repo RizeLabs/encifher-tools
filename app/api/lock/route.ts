@@ -11,6 +11,8 @@ const bobSecret = '81b637d8fcd2c6da6359e6963113a1170de795e4b725b84d1e0b4cfd9ec58
 const charlieSecret = '81b637d8fcd2c6da6359e6963113a1170de795e4b725b84d1e0b4cfd9ec58ce8';
 const internalSecret = '1229101a0fcf2104e8808dab35661134aa5903867d44deb73ce1c7e4eb925be8';
 
+const mutinyNetUrl = 'https://mutinynet.com/api/tx';
+
 const createMultiSigTapScript = (pubkeys: Buffer[]) => {
     const script = bitcoin.script.compile([
         pubkeys[0],
@@ -37,6 +39,9 @@ const createTimelockScript = (blockCount: number, senderPubKey: Buffer) => {
 };
 
 const createInsribeScript = (evmAddress: string) => {
+    if (evmAddress.length !== 42) {
+        throw new Error('Invalid EVM address');
+    }
     return bitcoin.script.compile([
         bitcoin.opcodes.OP_RETURN,
         Buffer.from(evmAddress.slice(2), 'hex')
@@ -47,6 +52,34 @@ const fundAddress = async (address: string) => {
     const faucetUrl = `https://faucet.mutinynet.com/api/onchain`
     const txid = axios.post(faucetUrl, { address, sats: 100000 }).then((response: any) => response.data.txid);
     return txid;
+}
+
+const waitForConfirmation = async (txid: string, userTaprootAddress: string) => {
+    try {
+        while (true) {
+            const response = await axios.get(`${mutinyNetUrl}/${txid}`);
+            const status = response.data.status.confirmed;
+            if (!status) {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                continue;
+            }
+
+            const outputs = response.data.vout;
+            const index = outputs.findIndex((output: any) => {
+                return output["scriptpubkey_address"] === userTaprootAddress;
+            });
+
+            return index;
+        }
+    } catch (error: any) {
+        if (error.response && error.response.data === "Transaction not found") {
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            return waitForConfirmation(txid, userTaprootAddress);
+        } else {
+            console.error('Error:', error);
+            throw error;
+        }
+    }
 }
 
 export async function POST(req: Request) {
@@ -85,9 +118,9 @@ export async function POST(req: Request) {
             network: bitcoin.networks.testnet
         });
         const userTaprootAddress = taprootPayment.address;
-        console.log(`User taproot address: ${userTaprootAddress}`);
 
         const prevTxid = await fundAddress(userTaprootAddress);
+        const vout = await waitForConfirmation(prevTxid, userTaprootAddress);
         const amount = 5000;
         const change = 94000;
 
@@ -104,7 +137,7 @@ export async function POST(req: Request) {
         const txx = new bitcoin.Psbt({ network: bitcoin.networks.testnet })
             .addInput({
                 hash: prevTxid,
-                index: 0,
+                index: vout,
                 witnessUtxo: prevUtxo,
                 tapInternalKey: aliceKeyPair.publicKey.slice(1),
             })
@@ -117,9 +150,9 @@ export async function POST(req: Request) {
             .finalizeInput(0);
 
         const signedTx = txx.extractTransaction().toHex();
-        // axios.post(mutinyNetSignetUrl, signedTx);
+        const txid = axios.post(mutinyNetUrl, signedTx).then((response: any) => response.data.toString());
         console.log(`Transaction sent`);
-        return Response.json({ signedTx });
+        return Response.json({ txid });
 
     } catch (error) {
         console.error("Error sending transaction:", error);

@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner } from "@nextui-org/react";
 import axios from "axios";
+import { fetchBalance } from "../lib/bitcoin";
 
 type bridgeSuccessType = {
   isSuccessful: boolean;
@@ -11,8 +12,17 @@ type bridgeSuccessType = {
 };
 
 const Bridge = () => {
+  const [balance, setBalance] = useState<string | undefined>('');
   const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const balance = await fetchBalance('tb1pstekwspqy68cjmawca4vzf5kgfsth54uqxvtgeylqeecp4kr4ymqctxgzv');
+      setBalance(balance?.toString());
+    };
+    fetch();
+  }, []);
 
   const [success, setSuccess] = useState<bridgeSuccessType>({
     isSuccessful: false,
@@ -24,19 +34,29 @@ const Bridge = () => {
   const bridge = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        "/api/bridge",
+      const lockResponse = await axios.post(
+        "/api/lock",
         { address },
         {
           headers: { "Content-Type": "application/json" },
-          timeout: 30000,
+          timeout: 50000,
         }
       );
-      const { txid_btc, txid_encifher } = response.data;
-      console.log(txid_btc, txid_encifher);
+      const { txid } = lockResponse.data;
+
+      const response = await axios.post(
+        "/api/bridge",
+        { address, txid },
+        {
+          headers: { "Content-Type": "application/json" },
+          timeout: 50000,
+        }
+      );
+      const { txid_encifher } = response.data;
+      console.log(txid, txid_encifher);
       setSuccess({
         isSuccessful: true,
-        signet_txid: txid_btc,
+        signet_txid: txid,
         encifher_txid: txid_encifher,
         error: undefined,
       });
@@ -57,7 +77,7 @@ const Bridge = () => {
     <div className="rounded-[32px] p-[40px] bg-gradient-to-b from-[#00000080] to-[#212121] bg-opacity-[50%] flex flex-col space-y-[30px] w-[55%]">
       <h1 className="text-[35px] font-[400]">Bridge</h1>
       <p>Your Taproot Address: 0x842434...adnzxu</p>
-      <p>Balance: 10.000 SATS</p>
+      <p>Balance: {balance} SATS</p>
       <input
         type="text"
         required
