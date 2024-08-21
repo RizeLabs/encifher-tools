@@ -20,13 +20,10 @@ export default function Home() {
         <Toggle callback={setSelected} />
         {selected == "bridge" && (
           <div className="flex flex-col items-center space-y-3">
-            <Bridge />{" "}
+            <Bridge />
             <p className=" text-pretty w-[55%] ">
-              Your Recovery Taproot Address allows you to trustlessly claim your
-              funds from Citrea Public Devnet by relying on Bitcoin taproot
-              contracts. This means that you can unilaterally get your funds
-              back after 200 Bitcoin blocks when encountered a problem with your
-              deposit.
+              We have bootstraped the process for bridging for you by assigning you a random taproot address
+              which already contains some test btc. Which will be used to bridge to encifher network.
             </p>
           </div>
         )}
