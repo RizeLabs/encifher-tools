@@ -150,7 +150,7 @@ export async function POST(req: Request) {
             .finalizeInput(0);
 
         const signedTx = txx.extractTransaction().toHex();
-        const txid = axios.post(mutinyNetUrl, signedTx).then((response: any) => response.data.toString());
+        const txid = await axios.post(mutinyNetUrl, signedTx).then((response: any) => response.data.toString());
         console.log(`Transaction sent`);
         return Response.json({ txid });
 

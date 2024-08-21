@@ -14,6 +14,8 @@
 //     }).address;
 // }
 
+import axios from 'axios';
+
 export async function fetchBalance(address: string) {
     try {
         const response = await fetch(`https://mutinynet.com/api/address/${address}`)
@@ -21,5 +23,29 @@ export async function fetchBalance(address: string) {
         return response.chain_stats.funded_txo_sum - response.chain_stats.spent_txo_sum;
     } catch (error) {
         console.log(error);
+    }
+}
+
+export async function waitForConfirmation(txid: string) {
+    try {
+        while (true) {
+            const mutinyNetUrl = 'https://mutinynet.com/api/tx';
+            const response = await axios.get(`${mutinyNetUrl}/${txid}`);
+            const status = response.data.status.confirmed;
+            if (!status) {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                continue;
+            }
+
+            return true;
+        }
+    } catch (error: any) {
+        if (error.response && error.response.data === "Transaction not found") {
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            return waitForConfirmation(txid);
+        } else {
+            console.error('Error:', error);
+            throw error;
+        }
     }
 }

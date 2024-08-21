@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Spinner } from "@nextui-org/react";
 import axios from "axios";
-import { fetchBalance } from "../lib/bitcoin";
+import { fetchBalance, waitForConfirmation } from "../lib/bitcoin";
 
 type bridgeSuccessType = {
   isSuccessful: boolean;
@@ -12,13 +12,14 @@ type bridgeSuccessType = {
 };
 
 const Bridge = () => {
+  const taprootAddress = "tb1pstekwspqy68cjmawca4vzf5kgfsth54uqxvtgeylqeecp4kr4ymqctxgzv";
   const [balance, setBalance] = useState<string | undefined>('');
   const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
-      const balance = await fetchBalance('tb1pstekwspqy68cjmawca4vzf5kgfsth54uqxvtgeylqeecp4kr4ymqctxgzv');
+      const balance = await fetchBalance(taprootAddress);
       setBalance(balance?.toString());
     };
     fetch();
@@ -43,10 +44,11 @@ const Bridge = () => {
         }
       );
       const { txid } = lockResponse.data;
+      await waitForConfirmation(txid);
 
       const response = await axios.post(
         "/api/bridge",
-        { address, txid },
+        { txid },
         {
           headers: { "Content-Type": "application/json" },
           timeout: 50000,
@@ -76,7 +78,7 @@ const Bridge = () => {
   return (
     <div className="rounded-[32px] p-[40px] bg-gradient-to-b from-[#00000080] to-[#212121] bg-opacity-[50%] flex flex-col space-y-[30px] w-[55%]">
       <h1 className="text-[35px] font-[400]">Bridge</h1>
-      <p>Your Taproot Address: 0x842434...adnzxu</p>
+      <p>Your Taproot Address: {taprootAddress.slice(0, 15) + '...' + taprootAddress.slice(-15)}</p>
       <p>Balance: {balance} SATS</p>
       <input
         type="text"
