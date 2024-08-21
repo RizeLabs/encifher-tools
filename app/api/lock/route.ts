@@ -1,7 +1,7 @@
 const axios = require("axios");
 const bitcoin = require("bitcoinjs-lib");
 const ECPairFactory = require("ecpair").default;
-const ecc = require("tiny-secp256k1");
+const ecc = require("@bitcoinerlab/secp256k1");
 
 bitcoin.initEccLib(ecc);
 const ECPair = ECPairFactory(ecc);
@@ -54,7 +54,7 @@ const fundAddress = async (address: string) => {
     return txid;
 }
 
-const waitForConfirmation = async (txid: string, userTaprootAddress: string) => {
+const waitForConfirmation = async (txid: string, userTaprootAddress: string): Promise<number | undefined> => {
     try {
         while (true) {
             const response = await axios.get(`${mutinyNetUrl}/${txid}`);

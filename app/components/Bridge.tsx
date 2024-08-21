@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Spinner } from "@nextui-org/react";
 import axios from "axios";
-import { fetchBalance, waitForConfirmation } from "../lib/bitcoin";
+import { generateUserTaprootAddress, fetchBalance, waitForConfirmation } from "../lib/bitcoin";
 
 type bridgeSuccessType = {
   isSuccessful: boolean;
@@ -12,15 +12,18 @@ type bridgeSuccessType = {
 };
 
 const Bridge = () => {
-  const taprootAddress = "tb1pstekwspqy68cjmawca4vzf5kgfsth54uqxvtgeylqeecp4kr4ymqctxgzv";
+  const [taprootAddress, setTaprootAddress] = useState<string>('...');
   const [balance, setBalance] = useState<string | undefined>('');
   const [address, setAddress] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
+      const taprootAddress = generateUserTaprootAddress();
+      if (!taprootAddress) return;
       const balance = await fetchBalance(taprootAddress);
       setBalance(balance?.toString());
+      setTaprootAddress(taprootAddress);
     };
     fetch();
   }, []);
