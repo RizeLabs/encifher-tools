@@ -42,7 +42,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between bg-white bg-opacity-[10%] py-4 sm:py-5 px-5 sm:px-6 lg:px-8 rounded-full mt-5 sm:mt-8 mx-5 sm:mx-10 lg:mx-20 xl:mx-32">
+    <div className="flex flex-col sm:flex-row items-center justify-between bg-white bg-opacity-[10%] py-4 sm:py-5 px-5 sm:px-6 lg:px-8 lg:rounded-full rounded-3xl mt-5 sm:mt-8 mx-5 sm:mx-10 lg:mx-20 xl:mx-32">
       <Image src={"/logo.svg"} width={140} height={30} alt="logo" className="mb-3 sm:mb-0" />
       <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8 font-light items-center">
         {routes.map((route, index) => (
