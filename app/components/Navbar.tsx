@@ -47,7 +47,7 @@ const Navbar = () => {
       <div className="flex space-x-8 font-[300] items-center">
         {routes.map((route, index) => (
           <div key={index}>
-            <Link href={route.route}>{route.name}</Link>
+            <Link href={route.route} target="_blank">{route.name}</Link>
           </div>
         ))}
       </div>
