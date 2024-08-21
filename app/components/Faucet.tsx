@@ -46,8 +46,8 @@ const Faucet = () => {
   };
 
   return (
-    <div className="rounded-[32px] p-[40px] bg-gradient-to-b from-[#00000080] to-[#212121] bg-opacity-[50%] flex flex-col space-y-[30px] w-[55%]">
-      <h1 className="text-[35px] font-[400]">Faucet</h1>
+    <div className="rounded-[32px] p-[20px] sm:p-[30px] md:p-[40px] bg-gradient-to-b from-[#00000080] to-[#212121] bg-opacity-[50%] flex flex-col space-y-[20px] sm:space-y-[25px] md:space-y-[30px] w-[90%] sm:w-[75%] md:w-[60%] lg:w-[55%] mx-auto">
+      <h1 className="text-[24px] sm:text-[28px] md:text-[32px] lg:text-[35px] font-[400]">Faucet</h1>
 
       <input
         type="text"
@@ -56,20 +56,22 @@ const Faucet = () => {
         placeholder="Wallet Address"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
-        className="bg-[#2D146C] text-white py-3 px-6 border border-gray-400 rounded-full "
+        className="bg-[#2D146C] text-white py-2 px-4 sm:py-3 sm:px-6 border border-gray-400 rounded-full "
       />
 
       <button
-        className=" bg-gradient-to-b from-[#7754FF] to-[#643CFF] text-white p-3 rounded-full "
+        className="bg-gradient-to-b from-[#7754FF] to-[#643CFF] text-white py-2 sm:py-3 px-4 rounded-full"
         onClick={mint}
       >
         {loading ? <Spinner /> : "Claim 0.01 eBTC"}
       </button>
+
       {success.error && (
-        <div className="text-[18px] text-red-300 text-wrap">
+        <div className="text-[16px] sm:text-[18px] text-red-300 break-words">
           Error: Something went wrong
         </div>
       )}
+
       {success.encifher_txid && showModal && (
         <Popup
           type={"faucet"}
@@ -78,6 +80,7 @@ const Faucet = () => {
         />
       )}
     </div>
+
   );
 };
 

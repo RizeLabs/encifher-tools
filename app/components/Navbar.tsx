@@ -42,17 +42,20 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex flex-row items-center justify-between bg-white bg-opacity-[10%] py-[20px] px-[30px] rounded-full mt-[35px] mx-[80px]">
-      <Image src={"/logo.svg"} width={170} height={35} alt="logo" />
-      <div className="flex space-x-8 font-[300] items-center">
+    <div className="flex flex-col sm:flex-row items-center justify-between bg-white bg-opacity-[10%] py-4 sm:py-5 px-5 sm:px-6 lg:px-8 rounded-full mt-5 sm:mt-8 mx-5 sm:mx-10 lg:mx-20 xl:mx-32">
+      <Image src={"/logo.svg"} width={140} height={30} alt="logo" className="mb-3 sm:mb-0" />
+      <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8 font-light items-center">
         {routes.map((route, index) => (
           <div key={index}>
             <Link href={route.route} target="_blank">{route.name}</Link>
           </div>
         ))}
       </div>
-      <button onClick={() => addEncifherNetworkConfig()} className="bg-white flex flex-row space-x-2 text-black items-center py-2 px-5 text-[18px]  rounded-full">
-        <Image src={"/metamask.svg"} width={30} height={30} alt="metamask fox"/>
+      <button
+        onClick={() => addEncifherNetworkConfig()}
+        className="bg-white flex flex-row space-x-2 text-black items-center py-2 px-4 sm:py-2 sm:px-5 text-base sm:text-[18px] rounded-full mt-4 sm:mt-0"
+      >
+        <Image src={"/metamask.svg"} width={25} height={25} alt="metamask fox" />
         <p>Add to Metamask</p>
       </button>
     </div>

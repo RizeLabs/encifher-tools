@@ -76,10 +76,12 @@ const Bridge = () => {
   };
 
   return (
-    <div className="rounded-[32px] p-[40px] bg-gradient-to-b from-[#00000080] to-[#212121] bg-opacity-[50%] flex flex-col space-y-[30px] w-[55%]">
-      <h1 className="text-[35px] font-[400]">Bridge</h1>
-      <p>Your Taproot Address: {taprootAddress.slice(0, 15) + '...' + taprootAddress.slice(-15)}</p>
-      <p>Balance: {balance} SATS</p>
+    <div className="rounded-[32px] p-[20px] md:p-[40px] bg-gradient-to-b from-[#00000080] to-[#212121] bg-opacity-[50%] flex flex-col space-y-[20px] md:space-y-[30px] w-full md:w-[55%] mx-auto">
+      <h1 className="text-[24px] md:text-[35px] font-[400]">Bridge</h1>
+      <p className="text-sm md:text-base">
+        Your Taproot Address: {taprootAddress.slice(0, 15) + '...' + taprootAddress.slice(-15)}
+      </p>
+      <p className="text-sm md:text-base">Balance: {balance} SATS</p>
       <input
         type="text"
         required
@@ -87,15 +89,15 @@ const Bridge = () => {
         placeholder="address"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
-        className="bg-[#2D146C] text-white py-3 px-6 border border-gray-400 rounded-full"
+        className="bg-[#2D146C] text-white py-2 px-4 md:py-3 md:px-6 border border-gray-400 rounded-full text-sm md:text-base"
       />
       <button
-        className=" bg-gradient-to-b from-[#7754FF] to-[#643CFF] text-white p-3 rounded-full "
+        className="bg-gradient-to-b from-[#7754FF] to-[#643CFF] text-white p-2 md:p-3 rounded-full text-sm md:text-base"
         onClick={bridge}
       >
         {loading ? <Spinner /> : "Bridge 0.01 eBTC"}
       </button>
-      <div className="mt-2 text-center">
+      <div className="mt-2 text-center text-sm md:text-base">
         {success.isSuccessful && (
           <span>
             Yay! Checkout the tx:{" "}
