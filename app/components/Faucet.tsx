@@ -29,12 +29,14 @@ const Faucet = () => {
 
   const mint = async () => {
     setLoading(true);
+    const suffix = selectedToken === "eBTC" ? "" : "-erc20";
+    const value = selectedToken === "eBTC" ? 0.01 : 10;
     try {
-      const resp = await fetch("/api/mint", {
+      const resp = await fetch(`/api/mint${suffix}`, {
         method: "POST",
         body: JSON.stringify({
-          address: address,
-          value: 0.01,
+          address,
+          value,
         }),
       });
       const { txid } = await resp.json();

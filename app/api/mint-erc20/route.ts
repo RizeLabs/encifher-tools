@@ -1,24 +1,28 @@
-import { Wallet, ethers } from "ethers";
-import { eERC20Abi } from "./abi";
-import { config } from "../../lib/config"
+import { ethers, Wallet } from "ethers";
+import { eUsdtAddress, eERC20Abi } from "./constant";
 import { encryptAmount } from "../utils/fhevm";
-import { writeContract, waitForTransactionReceipt } from "wagmi/actions";
-import { toHex } from "viem";
 
-const eUSDTAddress = "0x62E2e51Ce065eA0Cb7036aD3A06cF1766fb8F647";
+const provider = new ethers.JsonRpcProvider("https://rpc.encifher.io/");
+const pk = process.env.FAUCET_KEY as string;
+const wallet = new Wallet(pk, provider);
 const faucetAddress = "0xe835a53972b23b150d0feb06967c3eb6e7dddcec";
 
 export async function POST(req: Request) {
   const { address, value }: { address: string; value: number } = await req.json();
-  const eAmountIn = await encryptAmount(faucetAddress, value, eUSDTAddress);
-
-  let hash = await writeContract(config, {
-    address: eUSDTAddress,
-    abi: eERC20Abi,
-    functionName: "transfer",
-    args: [address, toHex(eAmountIn.handles[0]), toHex(eAmountIn.inputProof)]
-  })
-
-  let _ = await waitForTransactionReceipt(config, { hash })
-  return Response.json({ txid: hash });
+  try {
+    const eAmountIn = await encryptAmount(faucetAddress, value, eUsdtAddress);
+    const contract = new ethers.Contract(eUsdtAddress, eERC20Abi, wallet);
+    const tx = await wallet.sendTransaction({
+      to: eUsdtAddress,
+      data: contract.interface.encodeFunctionData(
+        "transfer",
+        [address, eAmountIn.handles[0], eAmountIn.inputProof]
+      ),
+    });
+    await tx.wait();
+    return Response.json({ txid: tx.hash });
+  } catch (error: any) {
+    console.error(error);
+    return Response.error();
+  }
 }

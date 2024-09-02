@@ -3,7 +3,6 @@ import { initFhevm, createInstance, FhevmInstance } from "fhevmjs";
 const createFhevmInstance = async (): Promise<FhevmInstance> => {
     await initFhevm();
     const instance = await createInstance({
-        network: window.ethereum,
         networkUrl: 'https://rpc.encifher.io/',
         gatewayUrl: 'https://gateway.rpc.encifher.io',
     });

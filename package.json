@@ -11,7 +11,6 @@
   "dependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
     "@nextui-org/react": "^2.4.6",
-    "@rainbow-me/rainbowkit": "^2.1.5",
     "axios": "^1.7.3",
     "bip32": "^4.0.0",
     "bitcoin-core": "^4.2.0",
@@ -23,9 +22,7 @@
     "fs": "^0.0.1-security",
     "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18",
-    "viem": "^2.21.1",
-    "wagmi": "^2.12.8"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "^20",

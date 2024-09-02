@@ -1,3 +1,4 @@
+export const eUsdtAddress = "0xE5fA9Fd33294C1ef517d95618b9da1fDa6908D9C"
 export const eERC20Abi = [
     {
       "inputs": [
