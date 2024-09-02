@@ -11,17 +11,21 @@
   "dependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
     "@nextui-org/react": "^2.4.6",
+    "@rainbow-me/rainbowkit": "^2.1.5",
     "axios": "^1.7.3",
     "bip32": "^4.0.0",
     "bitcoin-core": "^4.2.0",
     "bitcoinjs-lib": "^6.1.6",
     "ecpair": "^2.1.0",
     "ethers": "^6.13.2",
+    "fhevmjs": "^0.5.2",
     "framer-motion": "^11.3.19",
     "fs": "^0.0.1-security",
     "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "viem": "^2.21.1",
+    "wagmi": "^2.12.8"
   },
   "devDependencies": {
     "@types/node": "^20",
