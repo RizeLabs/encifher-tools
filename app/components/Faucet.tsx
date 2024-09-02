@@ -117,7 +117,7 @@ const Faucet = () => {
         className="bg-gradient-to-b from-[#7754FF] to-[#643CFF] text-white py-2 sm:py-3 px-4 rounded-full"
         onClick={mint}
       >
-        {loading ? <Spinner /> : "Claim 0.01 eBTC"}
+        {loading ? <Spinner /> : `Claim 0.01 ${selectedToken}`}
       </button>
 
       {success.error && (
