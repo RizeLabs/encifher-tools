@@ -80,7 +80,7 @@ const Bridge = () => {
 
   return (
     <div className="rounded-[32px] p-[20px] md:p-[40px] bg-gradient-to-b from-[#00000080] to-[#212121] bg-opacity-[50%] flex flex-col space-y-[20px] md:space-y-[30px] w-full md:w-[55%] mx-auto">
-      <h1 className="text-[24px] md:text-[35px] font-[400]">Bridge</h1>
+      <h1 className="text-[24px] md:text-[35px] font-[400]">Bridge (under work)</h1>
       <p className="text-sm md:text-base">
         Your Taproot Address: {taprootAddress.slice(0, 15) + '...' + taprootAddress.slice(-15)}
       </p>
@@ -103,14 +103,14 @@ const Bridge = () => {
       <div className="mt-2 text-center text-sm md:text-base">
         {success.isSuccessful && (
           <span>
-            Yay! Checkout the tx:{" "}
-            <a
+            Yay! txn completed
+            {/* <a
               href={`https://explorer.encifher.io/tx/${success.encifher_txid}`}
               target="_blank"
               className="text-yellow-400"
             >
               Encifher scan
-            </a>
+            </a> */}
           </span>
         )}
         {!success.isSuccessful && success.error && <>Oops! Please try again.</>}

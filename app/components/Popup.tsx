@@ -37,7 +37,7 @@ const Popup = ({
               height={200}
             />
             <h1 className="text-[28px] font-[500]">Deposit successful</h1>
-            <Link
+            {/* <Link
               className="flex flex-row space-x-2 border px-4 py-1 bg-[#613DDD] rounded-full border-transparent"
               href={`https://explorer.encifher.io/tx/${txid}`}
               target="_blank"
@@ -46,7 +46,7 @@ const Popup = ({
                 txn : {txid.slice(0, 10)}...{txid.slice(-4)}
               </p>
               <Image src={"/link.svg"} alt="" width={16} height={16} />
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>
