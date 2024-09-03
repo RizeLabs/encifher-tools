@@ -36,7 +36,7 @@ const Navbar = () => {
         alert("Injected ethereum not found");
       }
     } catch (err) {
-      alert("Error occured while adding Encifher network config");
+      alert("Seems like Encifher is already added to your metamask");
       console.log(err);
     }
   };
