@@ -7,11 +7,11 @@ const pk = process.env.PRIVATE_KEY as string;
 const wallet = new Wallet(pk, provider);
 
 export async function POST(req: Request) {
-  const { address, value }: { address: string; value: number } =
+  const { address, value }: { address: string; value: string } =
     await req.json();
   const txid = await wallet.sendTransaction({
     to: address,
-    value: ethers.parseEther(value.toString()),
+    value: ethers.parseEther(value),
   });
   console.log(txid);
 
