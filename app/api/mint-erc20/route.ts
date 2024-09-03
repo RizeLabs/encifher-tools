@@ -5,7 +5,7 @@ import { encryptAmount } from "../utils/fhevm";
 const provider = new ethers.JsonRpcProvider("https://rpc.encifher.io/");
 const pk = process.env.FAUCET_KEY as string;
 const wallet = new Wallet(pk, provider);
-const faucetAddress = "0xe835a53972b23b150d0feb06967c3eb6e7dddcec";
+const faucetAddress = process.env.FAUCET_ADDRESS as string;
 
 export async function POST(req: Request) {
   const { address, value }: { address: string; value: number } = await req.json();
