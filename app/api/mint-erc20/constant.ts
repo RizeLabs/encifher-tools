@@ -1,3 +1,4 @@
+export const eUsdcAddress = "0xE4568F691073A9eb3cc8444bDC5ecC7fF7F6Fe3A"
 export const eUsdtAddress = "0xE5fA9Fd33294C1ef517d95618b9da1fDa6908D9C"
 export const eERC20Abi = [
     {

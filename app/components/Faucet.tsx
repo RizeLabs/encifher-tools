@@ -15,9 +15,11 @@ const Faucet = () => {
   const [showModal, setShowModal] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedToken, setSelectedToken] = useState("eBTC");
+  const value = selectedToken === "eBTC" ? "0.01" : "10";
 
   const tokens = [
     { symbol: "eBTC", icon: "/btc.svg" },
+    { symbol: "eUSDC", icon: "/usdc.svg" },
     { symbol: "eUSDT", icon: "/usdt.svg" },
   ];
 
@@ -30,13 +32,13 @@ const Faucet = () => {
   const mint = async () => {
     setLoading(true);
     const suffix = selectedToken === "eBTC" ? "" : "-erc20";
-    const value = selectedToken === "eBTC" ? 0.01 : 10;
     try {
       const resp = await fetch(`/api/mint${suffix}`, {
         method: "POST",
         body: JSON.stringify({
           address,
           value,
+          selectedToken
         }),
       });
       const { txid } = await resp.json();
@@ -119,7 +121,7 @@ const Faucet = () => {
         className="bg-gradient-to-b from-[#7754FF] to-[#643CFF] text-white py-2 sm:py-3 px-4 rounded-full"
         onClick={mint}
       >
-        {loading ? <Spinner /> : <span>{selectedToken === "eBTC" ? "Claim 0.01 ebtc" : "Claim 10 eUSDT"}</span>}
+        {loading ? <Spinner /> : <span>{`Claim ${value} ${selectedToken}`}</span>}
       </button>
 
       {success.error && (
