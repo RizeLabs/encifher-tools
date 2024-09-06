@@ -130,10 +130,10 @@ const Faucet = () => {
         </div>
       )}
 
-      {success.encifher_txid && showModal && (
+      {true && (
         <Popup
           type={"faucet"}
-          txid={success.encifher_txid}
+          txid={"success.encifher_txid"}
           setShowModal={setShowModal}
         />
       )}
