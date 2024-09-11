@@ -15,7 +15,9 @@ const Faucet = () => {
   const [showModal, setShowModal] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedToken, setSelectedToken] = useState("eBTC");
+  const [status, setStatus] = useState("");
   const value = selectedToken === "eBTC" ? "0.01" : "10";
+  // const suffix = selectedToken === "eBTC" ? "" : "-erc20";
 
   const tokens = [
     { symbol: "eBTC", icon: "/btc.svg" },
@@ -31,18 +33,35 @@ const Faucet = () => {
 
   const mint = async () => {
     setLoading(true);
-    const suffix = selectedToken === "eBTC" ? "" : "-erc20";
     try {
-      const resp = await fetch(`/api/mint${suffix}`, {
-        method: "POST",
-        body: JSON.stringify({
-          address,
-          value,
-          selectedToken
-        }),
-      });
-      const { txid } = await resp.json();
-      setSuccess({ isSuccessful: true, encifher_txid: txid, error: undefined });
+      // const resp = await fetch(`/api/mint${suffix}`, {
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     address,
+      //     value,
+      //     selectedToken
+      //   }),
+      // });
+      // const { txid } = await resp.json();
+      let tx_id = ""
+      const tokens = ["eBTC", "eUSDC", "eUSDT"];
+      for (const token of tokens) {
+        setStatus(`Claiming ${token}`);
+        const suffix = token === "eBTC" ? "" : "-erc20";
+        const value = token === "eBTC" ? "0.01" : "0.01";
+        const resp = await fetch(`/api/mint${suffix}`, {
+          method: "POST",
+          body: JSON.stringify({
+            address,
+            value,
+            selectedToken: token
+          }),
+        });
+        const { txid } = await resp.json();
+        if (token === tokens[0]) tx_id = txid;
+      };
+
+      setSuccess({ isSuccessful: true, encifher_txid: tx_id, error: undefined });
       setLoading(false);
       setShowModal(true);
     } catch (error) {
@@ -121,7 +140,7 @@ const Faucet = () => {
         className="bg-gradient-to-b from-[#7754FF] to-[#643CFF] text-white py-2 sm:py-3 px-4 rounded-full"
         onClick={mint}
       >
-        {loading ? <Spinner /> : <span>{`Claim ${value} ${selectedToken}`}</span>}
+        {loading ? (<span className="flex justify-center items-center gap-4"><p>{status} </p><Spinner color="default"/></span>) : <span>{`Claim ${value} ${selectedToken}`}</span>}
       </button>
 
       {success.error && (

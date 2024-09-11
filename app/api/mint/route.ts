@@ -9,11 +9,10 @@ const wallet = new Wallet(pk, provider);
 export async function POST(req: Request) {
   const { address, value }: { address: string; value: string } =
     await req.json();
-  const txid = await wallet.sendTransaction({
+  const tx = await wallet.sendTransaction({
     to: address,
     value: ethers.parseEther(value),
   });
-  console.log(txid);
 
-  return Response.json({ txid: txid.hash });
+  return Response.json({ txid: tx.hash });
 }
