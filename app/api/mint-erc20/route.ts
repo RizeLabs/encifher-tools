@@ -15,14 +15,14 @@ export async function POST(req: Request) {
   try {
     const eAmountIn = await encryptAmount(faucetAddress, parseAmount(value), eUsdtAddress);
     const contract = new ethers.Contract(eUsdtAddress, eERC20Abi, wallet);
-    const { hash } = await wallet.sendTransaction({
+    const tx = await wallet.sendTransaction({
       to: tokenAddress,
       data: contract.interface.encodeFunctionData(
         "transfer",
         [address, eAmountIn.handles[0], eAmountIn.inputProof]
       ),
     });
-    return Response.json({ txid: hash });
+    return Response.json({ txid: tx.hash });
   } catch (error: any) {
     console.error(error);
     return Response.error();
