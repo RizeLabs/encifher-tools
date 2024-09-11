@@ -48,7 +48,7 @@ const Faucet = () => {
       for (const token of tokens) {
         setStatus(`Claiming ${token}`);
         const suffix = token === "eBTC" ? "" : "-erc20";
-        const value = token === "eBTC" ? "0.01" : "0.01";
+        const value = token === "eBTC" ? "0.01" : "10";
         const resp = await fetch(`/api/mint${suffix}`, {
           method: "POST",
           body: JSON.stringify({
