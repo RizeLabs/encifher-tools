@@ -152,7 +152,7 @@ const Faucet = () => {
       {success.encifher_txid && showModal && (
         <Popup
           type={"faucet"}
-          txid={success.encifher_txid}
+          txid={success.encifher_txid || ""}
           setShowModal={setShowModal}
         />
       )}
