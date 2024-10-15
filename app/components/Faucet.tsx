@@ -21,8 +21,8 @@ const Faucet = () => {
 
   const tokens = [
     { symbol: "eBTC", icon: "/btc.svg" },
-    { symbol: "eUSDC", icon: "/usdc.svg" },
-    { symbol: "eUSDT", icon: "/usdt.svg" },
+    // { symbol: "eUSDC", icon: "/usdc.svg" },
+    // { symbol: "eUSDT", icon: "/usdt.svg" },
   ];
 
   const [success, setSuccess] = useState<faucetSuccessType>({
@@ -44,7 +44,7 @@ const Faucet = () => {
       // });
       // const { txid } = await resp.json();
       let tx_id = ""
-      const tokens = ["eBTC", "eUSDC", "eUSDT"];
+      const tokens = ["eBTC"];
       for (const token of tokens) {
         setStatus(`Claiming ${token}`);
         const suffix = token === "eBTC" ? "" : "-erc20";
