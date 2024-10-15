@@ -20,7 +20,7 @@ const Popup = ({
   };
 
   return (
-    <div>
+<div>
       <div
         className="justify-center items-center content-center flex overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none"
         onClick={handleBackgroundClick} // Close modal when background is clicked
